@@ -2,35 +2,24 @@ package com.lazybtree
 
 object Main extends App {
 
-  // Starting with an empty tree
-  var btree = {
-    BTree.empty[Int, Int](2)
-  }
-  //Insert some values on the tree
-  for (i <- 1 to 15) {
-    btree = btree.insert(i, i);
-  }
-  // Find the height of the tree
-  val height = {
-    val h = btree.getHeight
-    if (h == 0) "Empty tree. Height: 0"
-    else s"It's height is: $h"
-  }
-  // Find the maximum key
-  val maxKey = btree.getMaxKey
-  // Fund the minimum Key
-  val minKey = btree.getMinKey
-  // Render b-tree structure
-  val rendering = btree.renderStructure
-  // Print info
-  println("\n\n*********************** STRUCTURE ***********************\n" + btree)
-  println("\n\n*********************** RENDERING ***********************\n" + rendering)
-  println("\n\n***********************  HEIGHT  ***********************\n" + height)
-  println("\n\n*********************** MAX-KEY  ***********************\n" + maxKey)
-  println("\n\n*********************** MIN-KEY  ***********************\n" + minKey)
-
-
- val lazyBtree = LazyBTree.empty[Int, Int](2)
- lazyBtree.viewBuckets()
+  val lazyBtree = LazyBTree.empty[Int, Int](2)
+  lazyBtree.listBuckets()
+  lazyBtree.insert(1, 1);
+  lazyBtree.insert(2, 2)
+  lazyBtree.insert(3, 3)
+  lazyBtree.insert(4, 4)
+  lazyBtree.insert(5, 5)
+  lazyBtree.insert(6, 6)
+  lazyBtree.insert(7, 7)
+  lazyBtree.insert(8, 8)
+  println(lazyBtree)
+  println(lazyBtree.btree)
+  println(lazyBtree.buckets)
+  println(lazyBtree.getKey(5))
+  println(lazyBtree.getKey(7))
+  println("Height: " + lazyBtree.getBTreeHeight)
+  println("Min-key: " + lazyBtree.getMinKey)
+  println("Max-key: " + lazyBtree.getMaxKey)
+  println(lazyBtree.renderBTree)
 
 }

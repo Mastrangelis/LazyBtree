@@ -73,9 +73,9 @@ class MutableDLL[A] extends mutable.Buffer[A] {
   }
 
   // Add multiple elements as a sequence at a given index on the list
-  def insertAll(idx: Int, elems: IterableOnce[A]): Unit = {
+  def insertAll(idx: Int, elems: Traversable[A]): Unit = {
     require(idx >= 0 && idx < numElems + 1)
-    if (elems.iterator.nonEmpty) {
+    if (elems.nonEmpty) {
       var node = end.next
       for (i <- 0 until idx) node = node.next
       for (e <- elems) {
@@ -96,7 +96,7 @@ class MutableDLL[A] extends mutable.Buffer[A] {
   }
 
   // Update an element at a given index
-  def patchInPlace(from: Int, patch: IterableOnce[A], replaced: Int): MutableDLL.this.type = {
+  def patchInPlace(from: Int, patch: Traversable[A], replaced: Int): MutableDLL[A] = {
     this
   }
 
@@ -113,7 +113,10 @@ class MutableDLL[A] extends mutable.Buffer[A] {
   }
 
   // Removing multiple elements from the list
-  def remove(idx: Int, count: Int): Unit = {
+  override def remove(idx: Int, count: Int): Unit = {
 
   }
+
+  override def +=(elem: A): MutableDLL.this.type = this
+  override def +=:(elem: A): MutableDLL.this.type = this
 }

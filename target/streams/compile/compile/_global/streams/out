@@ -1,22 +1,7 @@
-[0m[[0m[31merror[0m] [0m[0mC:\Users\nm\IdeaProjects\LazyBtree\src\main\scala\com\lazybtree\MutableDLL.scala:14:7: cannot override final member:[0m
-[0m[[0m[31merror[0m] [0m[0mfinal def +=(elem: A): MutableDLL.this.type (defined in trait Growable)[0m
-[0m[[0m[31merror[0m] [0m[0m  def += (elem: A): MutableDLL.this.type = {[0m
-[0m[[0m[31merror[0m] [0m[0m      ^[0m
-[0m[[0m[31merror[0m] [0m[0mC:\Users\nm\IdeaProjects\LazyBtree\src\main\scala\com\lazybtree\MutableDLL.scala:23:7: cannot override final member:[0m
-[0m[[0m[31merror[0m] [0m[0mfinal def +=:(elem: A): MutableDLL.this.type (defined in trait Buffer)[0m
-[0m[[0m[31merror[0m] [0m[0m  def +=: (elem: A): MutableDLL.this.type = {[0m
-[0m[[0m[31merror[0m] [0m[0m      ^[0m
-[0m[[0m[31merror[0m] [0m[0mC:\Users\nm\IdeaProjects\LazyBtree\src\main\scala\com\lazybtree\MutableDLL.scala:5:7: class MutableDLL needs to be abstract.[0m
-[0m[[0m[31merror[0m] [0m[0mMissing implementations for 6 members. Stub implementations follow:[0m
-[0m[[0m[31merror[0m] [0m[0m  // Members declared in scala.collection.mutable.Buffer[0m
-[0m[[0m[31merror[0m] [0m[0m  def insert(idx: Int, elem: A): Unit = ???[0m
-[0m[[0m[31merror[0m] [0m[0m  def insertAll(idx: Int, elems: scala.collection.IterableOnce[A]): Unit = ???[0m
-[0m[[0m[31merror[0m] [0m[0m  def patchInPlace(from: Int, patch: scala.collection.IterableOnce[A], replaced: Int): com.lazybtree.MutableDLL[A] = ???[0m
-[0m[[0m[31merror[0m] [0m[0m  def prepend(elem: A): com.lazybtree.MutableDLL[A] = ???[0m
-[0m[[0m[31merror[0m] [0m[0m  def remove(idx: Int, count: Int): Unit = ???[0m
-[0m[[0m[31merror[0m] [0m[0m  [0m
-[0m[[0m[31merror[0m] [0m[0m  // Members declared in scala.collection.mutable.Growable[0m
-[0m[[0m[31merror[0m] [0m[0m  def addOne(elem: A): com.lazybtree.MutableDLL[A] = ???[0m
-[0m[[0m[31merror[0m] [0m[0mclass MutableDLL[A] extends scala.collection.mutable.Buffer[A] {[0m
-[0m[[0m[31merror[0m] [0m[0m      ^[0m
-[0m[[0m[31merror[0m] [0m[0mthree errors found[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\nick\Documents\dev\LazyBtree\src\main\scala\com\lazybtree\LazyBTree.scala:8:3: identifier expected but 'def' found.[0m
+[0m[[0m[31merror[0m] [0m[0m  def viewBuckets(): Unit = {[0m
+[0m[[0m[31merror[0m] [0m[0m  ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\nick\Documents\dev\LazyBtree\src\main\scala\com\lazybtree\MutableDLL.scala:5:26: case classes must have a parameter list; try 'case class MutableDLL()' or 'case object MutableDLL'[0m
+[0m[[0m[31merror[0m] [0m[0mcase class MutableDLL[A] extends mutable.Buffer[A] {[0m
+[0m[[0m[31merror[0m] [0m[0m                         ^[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
