@@ -1,14 +1,17 @@
 package com.lazybtree
 
-//import scala.collection.mutable
+import scala.collection.mutable
 
-class MutableDLL[A] extends scala.collection.mutable.Buffer[A] {
+class MutableDLL[A] extends mutable.Buffer[A] {
   private var default: A = _
+  private var numElems = 0
+
+  // Declare Node class and the initial node
   private class Node(var data: A, var prev: Node, var next: Node)
   private val end: Node = new Node(default, null, null)
+  // Init end and prev pointers for initial node
   end.prev = end
   end.next = end
-  private var numElems = 0
 
   // Get the length of the list
   def length: Int = numElems
@@ -20,20 +23,12 @@ class MutableDLL[A] extends scala.collection.mutable.Buffer[A] {
     numElems = 0
   }
 
-  // Apply
+  // Get the data of the element at the given index
   def apply(index: Int): A = {
     require( index >= 0 && index < numElems )
     var node = end.next
     for (i <- 1 to index ) node = node.next
     node.data
-  }
-
-  // Update the data of a node in the list
-  def update(index: Int, newelem: A): Unit = {
-    require( index >= 0 && index < numElems )
-    var node = end.next
-    for (i <- 1 to index ) node = node.next
-    node.data = newelem
   }
 
   // Iterating through the nodes
@@ -49,7 +44,7 @@ class MutableDLL[A] extends scala.collection.mutable.Buffer[A] {
   }
 
   // Add an element at the end of the list
-  override def prepend(elem: A): MutableDLL.this.type = {
+  def prepend(elem: A): MutableDLL.this.type = {
     val newNode = new Node(elem, end, end.next)
     end.next.prev = newNode
     end.next = newNode
@@ -57,8 +52,17 @@ class MutableDLL[A] extends scala.collection.mutable.Buffer[A] {
     this
   }
 
+  // Add an element ot the beginning of the list ~ append
+  def addOne(elem: A): MutableDLL.this.type = {
+    val newNode = new Node(elem, end.prev, end)
+    end.prev.next = newNode
+    end.prev = newNode
+    numElems += 1
+    this
+  }
+
   // Add an element on the list at a given index
-  override def insert(idx: Int, elem: A): Unit = {
+  def insert(idx: Int, elem: A): Unit = {
     require(idx >= 0 && idx < numElems + 1)
     numElems += 1
     var node = end.next
@@ -69,7 +73,7 @@ class MutableDLL[A] extends scala.collection.mutable.Buffer[A] {
   }
 
   // Add multiple elements as a sequence at a given index on the list
-  override def insertAll(idx: Int, elems: IterableOnce[A]): Unit = {
+  def insertAll(idx: Int, elems: IterableOnce[A]): Unit = {
     require(idx >= 0 && idx < numElems + 1)
     if (elems.iterator.nonEmpty) {
       var node = end.next
@@ -83,27 +87,21 @@ class MutableDLL[A] extends scala.collection.mutable.Buffer[A] {
     }
   }
 
-  // Removing multiple elements from the list
-  override def remove(idx: Int, count: Int): Unit = {
-
+  // Update the data of a node in the list
+  def update(index: Int, newelem: A): Unit = {
+    require( index >= 0 && index < numElems )
+    var node = end.next
+    for (i <- 1 to index ) node = node.next
+    node.data = newelem
   }
 
   // Update an element at a given index
-  override def patchInPlace(from: Int, patch: IterableOnce[A], replaced: Int): MutableDLL.this.type = {
-    this
-  }
-
-  // Add an element ot the beginning of the list ~ append
-  override def addOne(elem: A): MutableDLL.this.type = {
-    val newNode = new Node(elem, end.prev, end)
-    end.prev.next = newNode
-    end.prev = newNode
-    numElems += 1
+  def patchInPlace(from: Int, patch: IterableOnce[A], replaced: Int): MutableDLL.this.type = {
     this
   }
 
   // Remove the element at the given index from the list
-  override def remove(idx: Int): A = {
+  def remove(idx: Int): A = {
     require(idx >= 0 && idx < numElems)
     numElems -= 1
     var node = end.next
@@ -112,5 +110,10 @@ class MutableDLL[A] extends scala.collection.mutable.Buffer[A] {
     node.prev.next = node.next
     node.next.prev = node.prev
     ret
+  }
+
+  // Removing multiple elements from the list
+  def remove(idx: Int, count: Int): Unit = {
+
   }
 }
