@@ -116,7 +116,6 @@ class MutableDLL[A] extends mutable.Buffer[A] {
   override def remove(idx: Int, count: Int): Unit = {
 
   }
-
   override def +=(elem: A): MutableDLL.this.type = this
   override def +=:(elem: A): MutableDLL.this.type = this
 }

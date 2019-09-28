@@ -25,19 +25,12 @@ case class BTree[K, V](root: BTree.Node[K, V], order: Int)(implicit keyOrdering:
   }
 
   def insert(newKey: K, newValue: V): BTree[K, V] = {
-
     val t = this.order
 
     def splitNode(node: N): (E, N, N) = (
       node.entries(t - 1),
-      BTree.Node(
-        entries = node.entries.take(t - 1),
-        children = node.children.take(t)
-      ),
-      BTree.Node(
-        entries = node.entries.takeRight(t - 1),
-        children = node.children.takeRight(t)
-      )
+      BTree.Node(entries = node.entries.take(t - 1), children = node.children.take(t)),
+      BTree.Node(entries = node.entries.takeRight(t - 1), children = node.children.takeRight(t))
     )
 
     def replaceData(index: Int, node: N): N = {
@@ -52,7 +45,7 @@ case class BTree[K, V](root: BTree.Node[K, V], order: Int)(implicit keyOrdering:
       else {
         val modified =
           if (node.leaf) {
-            val newEntry = BTree.Entry(newKey, newValue)
+            val newEntry = BTree.Entry(newKey, newValue);
             val newData = (node.entries :+ newEntry).sortBy(_.key)
             node.copy(entries = newData)
           } else {
@@ -83,40 +76,6 @@ case class BTree[K, V](root: BTree.Node[K, V], order: Int)(implicit keyOrdering:
     )
   }
 
-  def delete(key: K): BTree[K, V] = {
-
-    val t = this.order
-
-    def merge(node: N): (E, N, N) = (
-      node.entries(t - 1),
-      BTree.Node(
-        entries = node.entries.take(t - 1),
-        children = node.children.take(t)
-      ),
-      BTree.Node(
-        entries = node.entries.takeRight(t - 1),
-        children = node.children.takeRight(t)
-      )
-    )
-
-    def tryDelete(node: N): Either[(E, N, N), N] = {
-      if(true) Left(merge(node))
-      else Right(node)
-    }
-
-    this.copy(
-      root = tryDelete(root) match {
-        case Right(node) => node
-        case Left((restEntry, lhs, rhs)) =>
-         BTree.Node(Vector(restEntry), Vector(lhs, rhs))
-      }
-    )
-
-  }
-
-  /**
-   * Return the minimum key in the B-tree.
-   */
   def getMinKey: K = {
     @scala.annotation.tailrec
     def aux(node: N): K = if (!node.leaf) aux(node.children.head) else node.entries.head.key
@@ -125,9 +84,6 @@ case class BTree[K, V](root: BTree.Node[K, V], order: Int)(implicit keyOrdering:
     else aux(root.children.head)
   }
 
-  /**
-   * Return the maximum key in the B-tree.
-   */
   def getMaxKey: K = {
     @scala.annotation.tailrec
     def aux(node: N): K = if (!node.leaf) aux(node.children.last) else node.entries.last.key
@@ -136,9 +92,6 @@ case class BTree[K, V](root: BTree.Node[K, V], order: Int)(implicit keyOrdering:
     else aux(root.children.last)
   }
 
-  /**
-   * return the height of the B-tree
-   */
   def getHeight: Int = {
     var height = 1;
     def aux(node: N): Int = {
@@ -148,7 +101,6 @@ case class BTree[K, V](root: BTree.Node[K, V], order: Int)(implicit keyOrdering:
     if(root.entries.isEmpty) height - 1 else if (root.leaf) height else aux(root)
   }
 
-  /** For debug purposes */
   def renderStructure: String = {
     def aux(node: N, i: String): String = {
       val keysString = node.entries.map(x => x.key).mkString(",")
@@ -161,22 +113,14 @@ case class BTree[K, V](root: BTree.Node[K, V], order: Int)(implicit keyOrdering:
     }
     aux(root, "")
   }
-
-  override def equals(that: Any): Boolean = true
 }
 
 object BTree {
-
-  case class Entry[K, V](key: K, value: V) {
-    override def equals(that: Any): Boolean = true
-  }
+  case class Entry[K, V](key: K, value: V)
   case class Node[K: Ordering, V](entries: Vector[Entry[K, V]], children: Vector[Node[K, V]]) {
     def leaf: Boolean = children.isEmpty
-
-    override def equals(that: Any): Boolean = true
   }
-
-  def empty[K: Ordering, V](order: Int): BTree[K, V] =
+  def empty[K: Ordering, V](order: Int): BTree[K, V] = {
     BTree(Node[K, V](Vector.empty, Vector.empty), order)
+  }
 }
-

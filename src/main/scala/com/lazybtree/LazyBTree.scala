@@ -1,61 +1,30 @@
 package com.lazybtree
 
-case class LazyBTree[K, V](var btree: BTree[K,V], order: Int)(implicit keyOrdering: Ordering[K]) {
-  private type BiData = LazyBTree.BucketData[K];
-  private type Bi = LazyBTree.Bucket[BiData];
-  private type B = LazyBTree.Buckets[Bi];
+case class LazyBTree[K](var bPlusTree: BPlusTree[K], order: Int)(implicit keyOrdering: Ordering[K]) {
 
-  // Declare _buckets_ variable
-  var buckets: B = _
-
-  // Buckets ~ methods
-  private def initBuckets() : Unit = {
-    buckets = new B()
-    val size = btree.getHeight
-    for (i <- 0 to size + 5) {
-      val bucket = new Bi()
-      buckets.addOne(bucket)
-    }
-  }
-
-  def listBuckets(): Unit = {
-    for (i <- 0 until buckets.length) {
-      val bucket = buckets(i)
-      println(s"Bucket($i): $bucket")
-    }
-  }
-  def insert(key: K, value: V): Unit = {
-    val newBtree: BTree[K, V] = this.btree.insert(key, value)
-    this.btree = newBtree
-  }
-  def insertAtBucket(key: K, value: V): Boolean = false
-  def removeFromBucket(key: K): Boolean = true
-  def getBucket(idx: Int): Bi = {
-    require( idx >= 0 && idx < buckets.length )
-    buckets(idx)
-  }
-  def splitBucket: Boolean = true
-  def fuseBuckets: Boolean = false
-
+  //def listBuckets(): Unit =
+   // println(this.btree.buckets)
   // BTree ~ methods
-  def getKey(key: K): Option[V] = this.btree.get(key)
-  def getMinKey: K = this.btree.getMinKey
-  def getMaxKey: K = this.btree.getMaxKey
-  def getBTreeHeight: Int = this.btree.getHeight
-  def renderBTree:String = this.btree.renderStructure
+  def insertAtBPlusTree(key: K): Unit = {
+    val newBPlusTree: BPlusTree[K] = this.bPlusTree.insert(key)
+    this.bPlusTree = newBPlusTree
+  }
+  def getBPlusTreeKey(key: K): Option[K] = this.bPlusTree.get(key)
+  def getBPlusTreeMinKey: K = this.bPlusTree.getMinKey
+  def getBPlusTreeMaxKey: K = this.bPlusTree.getMaxKey
+  def getBPlusTreeHeight: Int = this.bPlusTree.getHeight
+  def renderBPlusTree: String = this.bPlusTree.renderStructure
 
-  // Initialize buckets
-  this.initBuckets()
 }
 
 object LazyBTree {
-  class BucketData[K] extends MutableDLL[K]
-  class Bucket[BucketData] extends MutableDLL[BucketData] {
-    def criticallity: Boolean = true
+  class Lij[K] extends MutableDLL[K] {
+    def LTB(x: K): Int = 1
   }
-  class Buckets[Bucket] extends MutableDLL[Bucket]
-  def empty[K: Ordering, V](order: Int): LazyBTree[K, V] = {
-    val initBtree = BTree.empty[K, V](2);
-    LazyBTree[K, V](initBtree, order)
+  class Li[Lij] extends MutableDLL[Lij]
+  class L[Li] extends MutableDLL[Li]
+  def empty[K: Ordering](order: Int): LazyBTree[K] = {
+    val initBtree = BPlusTree.empty[K](order);
+    LazyBTree[K](initBtree, order)
   }
 }
