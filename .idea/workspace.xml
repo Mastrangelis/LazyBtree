@@ -2,23 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5031af5-4888-46cc-9636-06646cb30bcf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/com/lazybtree/BPlusTree.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/nick.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/nick.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/lazybtree/BTree.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/lazybtree/BTree.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/lazybtree/LazyBTree.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/lazybtree/LazyBTree.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/lazybtree/BPlusTree.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/lazybtree/BPlusTree.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/lazybtree/Main.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/lazybtree/Main.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/lazybtree/MutableDLL.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/lazybtree/MutableDLL.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$Entry$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$Entry$.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$Entry.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$Entry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$Node$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$Node$.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree$Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/BTree.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/LazyBTree$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/LazyBTree$.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/LazyBTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/LazyBTree.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/Main$.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/Main$.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/MutableDLL.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/lazybtree/MutableDLL.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,12 +18,39 @@
     <option name="done" value="true" />
   </component>
   <component name="CoverageViewManager">
-    <option name="myElementSize" value="201" />
+    <option name="myElementSize" value="231" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="SBT">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="LazyBtree" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="LazyBtree" type="f1a62948:ProjectNode" />
+                <item name="LazyBtree" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="LazyBtree" type="f1a62948:ProjectNode" />
+                <item name="LazyBtree-build" type="2d1252cf:ModuleNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -47,6 +62,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SIGN_OFF_COMMIT" value="true" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
@@ -202,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569534850309</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="BPlusTree">
+      <created>1569704720045</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1569704720045</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -230,9 +253,13 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="BPlusTree" />
+    <option name="LAST_COMMIT_MESSAGE" value="BPlusTree" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/LazyBtree$Main__1_.ic" NAME="Main (1) Coverage Results" MODIFIED="1570124117550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.lazybtree.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/LazyBtree$Main.ic" NAME="Main Coverage Results" MODIFIED="1569498386207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

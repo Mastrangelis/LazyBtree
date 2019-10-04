@@ -1,5 +1,9 @@
 package com.lazybtree
 
+import com.lazybtree.BPlusTree.{Bucket, BucketData}
+
+import scala.collection.mutable.ArrayBuffer
+
 case class BPlusTree[K](root: BPlusTree.Node[K], buckets: BPlusTree.Buckets[BPlusTree.Bucket[BPlusTree.BucketData[K]]], order: Int)(implicit keyOrdering: Ordering[K]) {
 
   import keyOrdering.mkOrderingOps
@@ -10,6 +14,7 @@ case class BPlusTree[K](root: BPlusTree.Node[K], buckets: BPlusTree.Buckets[BPlu
   private type BiData = BPlusTree.BucketData[K]
   private type Bi = BPlusTree.Bucket[BiData]
   private type B = BPlusTree.Buckets[Bi]
+
 
   private def childIndex(node: N, key: K): Int =
     node.keys.lastIndexWhere(key > _.key) + 1
@@ -29,7 +34,9 @@ case class BPlusTree[K](root: BPlusTree.Node[K], buckets: BPlusTree.Buckets[BPlu
   }
 
   def insert(newKey: K): BPlusTree[K] = {
+
     val m = this.order
+    var bucketData = null.asInstanceOf[BiData]
 
     def splitNode(node: N): (E, N, N) = (
       node.keys(math.floor(m / 2).toInt),
@@ -51,12 +58,7 @@ case class BPlusTree[K](root: BPlusTree.Node[K], buckets: BPlusTree.Buckets[BPlu
           if (node.leaf) {
             val newEntry = BPlusTree.Entry(newKey);
             val newData = (node.keys :+ newEntry).sortBy(_.key)
-            val bucketData = BPlusTree.BucketData(newEntry.key)
-            if (buckets.last.length == buckets.last.bucketSize) {
-              buckets.addOne(BPlusTree.Bucket[BiData](null.asInstanceOf[BiData]).addOne(bucketData))
-            } else {
-              buckets.last.addOne(bucketData)
-            }
+            bucketData = BPlusTree.BucketData(newEntry.key)
             node.copy(keys = newData)
           } else {
             val index = childIndex(node, newKey)
@@ -89,14 +91,82 @@ case class BPlusTree[K](root: BPlusTree.Node[K], buckets: BPlusTree.Buckets[BPlu
       } else Left(rhs)
     }
 
+    /*def addDataToBuckets(bucketData: BiData): Option[Bi] = {
+      @scala.annotation.tailrec
+      def aux(bucket: Bi): Option[Bi] = {
+        val mayBeBucket = buckets.find(_.length < m - 1)
+        mayBeBucket match {
+          case None =>
+            val newBucket = new Bi(null.asInstanceOf[BiData])
+            newBucket.setBucketSize(order); buckets.addOne(newBucket)
+            aux(newBucket)
+          case Some(bucket) =>
+            bucket.addOne(bucketData)
+            bucket.sortBy(_.key)
+            Some(bucket)
+        }
+      }
+      aux(buckets.head)
+    }
+    *
+    */
+    def addToBucket(bucket: Bi, bidata: BiData): Unit = {
+      @scala.annotation.tailrec
+      def aux(bucket: Bi): Unit = {
+        if (bucket.length == 0) {
+          bucket.addOne(bidata)
+        } else {
+          val index = bucket.lastIndexWhere(bucketData.key > _.key)
+          if (index != -1) {
+            if (index != m - 2) {
+              bucket.addOne(bidata)
+              if (bucket.length == m) {
+                println("Wrong")
+              }
+            } else {
+              val newBucket = new Bi(Vector.empty)
+              val bucketIndex = buckets.indexOf(bucket)
+              buckets.insert(bucketIndex - 1, newBucket)
+              aux(newBucket)
+            }
+          } else {
+            val bucketIndex = buckets.indexOf(bucket)
+            val previousBucket = buckets(bucketIndex - 1)
+            aux(previousBucket)
+          }
+        }
+      }
+      aux(bucket)
+    }
+    def addDataToBuckets(bucketData: BiData): Unit = {
+      @scala.annotation.tailrec
+      def aux(): Unit = {
+        val mayBeEntry = buckets.find(_.length < m - 1)
+        mayBeEntry match {
+          case Some(bucket) =>
+            addToBucket(bucket, bucketData)
+          case None =>
+            val newBucket = {
+              new Bi(Vector.empty)
+            }
+            buckets.addOne(newBucket)
+            aux()
+        }
+      }
+      aux()
+    }
+
     this.copy(
       root = tryInsert(root) match {
-        case  Right(node) => node
+        case  Right(node) =>
+          addDataToBuckets(bucketData)
+          node
         case Left((restEntry, lhs, rhs)) =>
           val newRhs = removeDuplicateIndexOnInternalNodes(rhs) match {
             case Right(duplicateAtInternalNode) => duplicateAtInternalNode
             case Left(duplicateInLeaf) => duplicateInLeaf
           }
+          addDataToBuckets(bucketData)
           BPlusTree.Node(Vector(restEntry), Vector(lhs, newRhs))
       }
     )
@@ -163,12 +233,13 @@ case class BPlusTree[K](root: BPlusTree.Node[K], buckets: BPlusTree.Buckets[BPlu
 
   def renderStructure: String = {
     def aux(node: N, i: String): String = {
-      val keysString = node.keys.map(x => x.key).mkString(",")
+      val keysString = node.keys.map(x => x.key).mkString("|")
+      val formattedKeysString = s"|$keysString|"
       if (node.children.nonEmpty) {
         val childrenString = node.children.map(x => aux(x, i + "  ")).mkString("\n")
-        s"$i$keysString\n$childrenString"
+        s"$i$formattedKeysString\n$childrenString"
       } else {
-        s"$i$keysString"
+        s"$i$formattedKeysString"
       }
     }
     aux(root, "")
@@ -176,18 +247,25 @@ case class BPlusTree[K](root: BPlusTree.Node[K], buckets: BPlusTree.Buckets[BPlu
 }
 
 object BPlusTree {
+
   case class BucketData[K](key: K)
-  case class Bucket[BucketData](data: BucketData) extends MutableDLL[BucketData] {
-    val bucketSize: Int = 4
+  case class Bucket[K](data: Vector[BucketData[K]]) extends MutableDLL[K] {
+    var bucketSize: Int = 0
+    def setBucketSize(order: Int): Unit = bucketSize = order - 1
+    def getBucketSize: Int = bucketSize
+    def full(order: Int): Boolean = this.getBucketSize == order - 1
+    def sortByKey(s1: BucketData[K], s2: BucketData[K]) = {
+      println("comparing %s and %s".format(s1, s2))
+      s1.key.asInstanceOf[Int] > s2.key.asInstanceOf[Int]
+    }
   }
-  case class Buckets[Bucket](buckets: Bucket) extends MutableDLL[Bucket]
+  case class Buckets[Bucket](buckets: Vector[Bucket]) extends MutableDLL[Bucket]
   case class Entry[K](key: K)
   case class Node[K: Ordering](keys: Vector[Entry[K]], children: Vector[Node[K]]) {
     def leaf: Boolean = children.isEmpty
   }
   def empty[K: Ordering](order: Int): BPlusTree[K] = {
-    val bucket = Bucket(BucketData(null.asInstanceOf[K]))
-    val buckets = Buckets(Bucket(BucketData(null.asInstanceOf[K]))).addOne(bucket)
+    val buckets = Buckets[Bucket[BucketData[K]]](Vector.empty)
     BPlusTree(Node[K](Vector.empty, Vector.empty), buckets, order)
   }
 }

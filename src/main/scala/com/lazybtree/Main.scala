@@ -4,6 +4,7 @@ object Main extends App {
 
   val lazyBtree = LazyBTree.empty[Int](4)
   println(lazyBtree.bPlusTree.buckets)
+  //for (i <- 0 to 19) lazyBtree.insertAtBPlusTree(i)
   lazyBtree.insertAtBPlusTree(1)
   lazyBtree.insertAtBPlusTree(4)
   lazyBtree.insertAtBPlusTree(7)
@@ -11,15 +12,8 @@ object Main extends App {
   lazyBtree.insertAtBPlusTree(17)
   lazyBtree.insertAtBPlusTree(21)
   lazyBtree.insertAtBPlusTree(31)
-  lazyBtree.insertAtBPlusTree(25)
+
   lazyBtree.insertAtBPlusTree(19)
-  lazyBtree.insertAtBPlusTree(20)
-  lazyBtree.insertAtBPlusTree(28)
-  lazyBtree.insertAtBPlusTree(42)
-  lazyBtree.insertAtBPlusTree(51)
-  lazyBtree.insertAtBPlusTree(61)
-  lazyBtree.insertAtBPlusTree(71)
-  lazyBtree.insertAtBPlusTree(81)
 
 
   println(lazyBtree.getBPlusTreeKey(1))
